@@ -12,7 +12,7 @@ echo "c1.- Datos importados"
 #psql -U postgres -d practica1 -f c2_procesarDatos.sql
 echo "c2.- Datos procesados"
 
-#psql -U postgres -d practica1 -f d_trigger.sql
+#psql -U uPractica1 -d practica1 -f d_trigger.sql
 echo "d.- Trigger creado"
 
 
