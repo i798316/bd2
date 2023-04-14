@@ -50,6 +50,7 @@ CREATE TABLE Titulacion (
 	alumnos_graduados INT,
 	alumnos_con_reconocimiento INT,
 	abandonos INT,
+	indice_ocupacion DECIMAL(5,2),
 	CONSTRAINT fk_centro_titulacion
 	 FOREIGN KEY(id_centro)
 	  REFERENCES Centro(id_centro)
@@ -58,20 +59,23 @@ CREATE TABLE Titulacion (
 INSERT INTO Titulacion (id_centro, nombre, curso_academico, nota_corte, plazas_ofertadas,
 	tasa_exito, tasa_graduacion, tasa_rendimiento, tasa_eficiencia, alumnos_matriculados,
 	alumnos_nuevo_ingreso, alumnos_graduados, alumnos_con_reconocimiento,
-	abandonos)
+	abandonos, indice_ocupacion)
  SELECT Centro.id_centro, Resultados.estudio, Resultados.curso_academico,
  	Notas.nota_corte_definitiva_septiembre, Resultados.plazas_ofertadas,
  	Resultados.tasa_exito, Resultados.tasa_graduacion, Resultados.tasa_rendimiento,
  	Resultados.tasa_eficiencia, Resultados.alumnos_matriculados,
  	Resultados.alumnos_nuevo_ingreso, Resultados.alumnos_graduados, 
- 	Resultados.alumnos_con_reconocimiento, Egresados.alumnos_interrumpen_estudios
-  FROM Centro, Resultados, Notas, Egresados
+ 	Resultados.alumnos_con_reconocimiento, Egresados.alumnos_interrumpen_estudios,
+ 	Oferta.indice_ocupacion
+  FROM Centro, Resultados, Notas, Egresados, Oferta
    WHERE Centro.nombre = Resultados.centro AND Resultados.tipo_estudio = 'Grado' -- AND
    	-- Resultados.estudio = Notas.estudio 
    	AND Resultados.curso_academico = Notas.curso_academico
    	AND Centro.nombre = Notas.centro AND -- Resultados.estudio = Egresados.estudio AND 
    	Resultados.curso_academico = Egresados.curso_academico AND 
-   	Egresados.tipo_estudio = 'Grado';
+   	Egresados.tipo_estudio = 'Grado' AND Oferta.tipo_estudio = 'Grado'
+   	AND Resultados.curso_academico = Oferta.curso_academico AND Centro.nombre = Oferta.centro
+   	AND Notas.estudio = Egresados.estudio AND Egresados.estudio = Oferta.estudio;;
    	
 -- Tabla Convenio de Movilidad
 DROP TABLE IF EXISTS Convenio_Movilidad;
