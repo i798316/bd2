@@ -50,6 +50,7 @@ create table Titulacion (
 	alumnos_graduados int,
 	alumnos_con_reconocimiento int,
 	abandonos int,
+	indice_ocupacion decimal(5,2),
 	constraint fk_centro_titulacion
 	 foreign key(id_centro)
 	  references Centro(id_centro)
@@ -58,20 +59,23 @@ create table Titulacion (
 insert into Titulacion (id_centro, nombre, curso_academico, nota_corte, plazas_ofertadas,
 	tasa_exito, tasa_graduacion, tasa_rendimiento, tasa_eficiencia, alumnos_matriculados,
 	alumnos_nuevo_ingreso, alumnos_graduados, alumnos_con_reconocimiento,
-	abandonos)
+	abandonos, indice_ocupacion)
  select Centro.id_centro, Resultados.estudio, Resultados.curso_academico,
  	Notas.nota_corte_definitiva_septiembre, Resultados.plazas_ofertadas,
  	Resultados.tasa_exito, Resultados.tasa_graduacion, Resultados.tasa_rendimiento,
  	Resultados.tasa_eficiencia, Resultados.alumnos_matriculados,
  	Resultados.alumnos_nuevo_ingreso, Resultados.alumnos_graduados, 
- 	Resultados.alumnos_con_reconocimiento, Egresados.alumnos_interrumpen_estudios
-  from Centro, Resultados, Notas, Egresados
+ 	Resultados.alumnos_con_reconocimiento, Egresados.alumnos_interrumpen_estudios,
+ 	Oferta.indice_ocupacion
+  from Centro, Resultados, Notas, Egresados, Oferta
    where Centro.nombre = Resultados.centro and Resultados.tipo_estudio = 'Grado' --and
    	--Resultados.estudio = Notas.estudio 
    	and Resultados.curso_academico = Notas.curso_academico
    	and Centro.nombre = Notas.centro and --Resultados.estudio = Egresados.estudio and 
    	Resultados.curso_academico = Egresados.curso_academico and 
-   	Egresados.tipo_estudio = 'Grado';
+   	Egresados.tipo_estudio = 'Grado' and Oferta.tipo_estudio = 'Grado'
+   	and Resultados.curso_academico = Oferta.curso_academico and Centro.nombre = Oferta.centro
+   	and Notas.estudio = Egresados.estudio and Egresados.estudio = Oferta.estudio;
    	
 /* Abandonos voluntarios
 insert into Titulacion (abandonos_voluntarios)

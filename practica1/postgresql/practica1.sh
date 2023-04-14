@@ -15,6 +15,11 @@ echo "c2.- Datos procesados"
 #psql -U uPractica1 -d practica1 -f d_trigger.sql
 echo "d.- Trigger creado"
 
+#psql -U postgres -d practica1 -f e_estudiosMayorOcupacion.sql
+echo "e.- Consulta sobre estudio con mayor ocupación terminada"
 
-psql -U postgres  -d practica1 -f h_profesor.sql
+psql -U postgres -d practica1 -f f_universidad.sql
+echo "f.- Consulta sobre la universidad que más alumnos recibe terminada"
+
+#psql -U postgres  -d practica1 -f h_profesor.sql
 echo "h.- Usuario profesor creado"
