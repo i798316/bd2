@@ -30,3 +30,6 @@ echo "g.- Vista creada"
 
 psql -U postgres  -d practica1 -f h_profesor.sql
 echo "h.- Usuario profesor creado"
+
+psql -U uPractica1 -d practica1 -f borrarTablasAux.sql
+echo "Tablas auxiliares borradas"

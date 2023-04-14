@@ -26,3 +26,6 @@ echo "g.- Vista creada"
 
 mysql -u root -p practica1 < h_profesor.sql
 echo "h.- Usuario profesor creado"
+
+mysql -u uPractica1 -p practica1 < borrarTablasAux.sql
+echo "Tablas auxiliares borradas"
